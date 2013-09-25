@@ -38,7 +38,7 @@ define('IMADIR', basename(dirname(__FILE__)));
 define('IMAPATH', plugin_dir_path(__FILE__));
 
 // load the plugin only on multisites
-if (!is_multisite() && !class_exists('Ima_Class')) {
+if (is_multisite() && !class_exists('Ima_Class')) {
 
     class Ima_Class {
 
@@ -46,12 +46,15 @@ if (!is_multisite() && !class_exists('Ima_Class')) {
          * initialize the plugin
          * @since 1.0
          */
-        public function __construct() {
+        public function __construct()
+        {
             add_action('show_user_profile', array($this, 'add_custom_profile_fields'));
             add_action('edit_user_profile', array($this, 'add_custom_profile_fields'));
 
             add_action('personal_options_update', array($this, 'save_custom_profile_fields'));
             add_action('edit_user_profile_update', array($this, 'save_custom_profile_fields'));
+
+            add_filter('get_the_author_description', array($this, 'get_author_description'), 10, 2);
 
             $this->field_name = 'ima_description_' . get_current_blog_id();
         }
@@ -82,13 +85,23 @@ if (!is_multisite() && !class_exists('Ima_Class')) {
          * @param int $user_id
          * @return boolean
          */
-        public function save_custom_profile_fields($user_id) {
+        public function save_custom_profile_fields($user_id)
+        {
 
             if (!current_user_can('edit_user', $user_id))
                 return FALSE;
 
             if (isset($_POST[ $this->field_name ]))
                 update_usermeta($user_id, $this->field_name, $_POST[$this->field_name]);
+        }
+
+        /**
+         * get the new author description
+         */
+        public function get_author_description($val = '', $user_id = 0)
+        {
+            if ( intval( $user_id ) == 0) return;
+            return esc_attr(get_the_author_meta($this->field_name, $user_id));
         }
 
     }
