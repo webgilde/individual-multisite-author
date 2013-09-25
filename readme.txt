@@ -17,16 +17,18 @@ When running [WordPress Multisites](http://codex.wordpress.org/Create_A_Network)
 
 This is unfortunate not only on multilingual sites.
 
-Long story short, this plugin displays the author biography for each user on a per blog basis.
+Long story short, this plugin enables you to enter the author biography for each user on a per blog basis.
 
-You don’t have to do anything, but to install and activate the plugin to it’s simple, but useful feature.
+You don’t have to do anything, but to install and activate the plugin and to enter the author bio into the new field.
 
 Please visit the github repository on https://github.com/webzunft/multisite-individual-author if you want to contribute, post a specific feature request or bug report.
 
 == Other Notes ==
 
-Some things you might want to know:
+Some things site admins and developers might want to know:
+
 * the plugin only works when multisite support is enabled, but wouldn’t harm a normal blog when activated (is just not doing anything there)
+* the biography is saved using a custom profile field for each blog with the pattern 'ima_description_BLOGID', e.g. _img_description_3_
 
 == Changelog ==
 
