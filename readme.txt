@@ -1,4 +1,4 @@
-=== Individual author data for multisites ===
+=== Individual Multisite Author ===
 Contributors: webzunft
 Donate link: http://webgilde.com/
 Tags: multisite, author, author description, author bio, bio, biography
@@ -8,7 +8,6 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Here is a short description of the plugin.  This should be no more than 150 characters.  No markup here.
 This plugin enables individual author descriptions for each single blog in a multisite network.
 
 == Description ==
@@ -29,6 +28,7 @@ Some things site admins and developers might want to know:
 
 * the plugin only works when multisite support is enabled, but wouldn’t harm a normal blog when activated (is just not doing anything there)
 * the biography is saved using a custom profile field for each blog with the pattern 'ima_description_BLOGID', e.g. _img_description_3_
+* the filter get_the_author_description is used to load the "right" description; this is used by the`_author_meta()` and `get_the_author_meta()` functions
 
 == Changelog ==
 
