@@ -1,15 +1,13 @@
 <?php
-/*
-  Plugin Name: Individual Multisite Author
-  Version: 1.0
-  Plugin URI: http://webgilde.com/
-  Description: Allow individual author information for each blog in a multisite network.
-  Author: Thomas Maier
-  Author URI: http://www.webgilde.com/
-  License: GPL v2 or later
-
-  adblock-counter Plugin for WordPress
-  Copyright (C) 2013, webgilde GmbH, Thomas Maier (thomas.maier@webgilde.com)
+/**
+ * Plugin Name: Individual Multisite Author
+ * Description: A brief description of the Plugin.
+ * Version: 1.0.1
+ * Plugin URI: http://webgilde.com/
+ * Author: Thomas Maier
+ * Author URI: http://www.webgilde.com/
+ * License: GPL v2 or later
+ *
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
