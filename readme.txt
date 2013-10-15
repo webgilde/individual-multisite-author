@@ -4,7 +4,7 @@ Donate link: http://webgilde.com/
 Tags: multisite, author, author description, author bio, bio, biography
 Requires at least: 3.6
 Tested up to: 3.6.1
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,8 +44,18 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 == Changelog ==
 
+= 1.0.2 =
+* input field for individual description is now bigger
+* added short description for the plugin
+* use default description if no site specific description is provided.
+
 = 1.0.1 =
 * updated files, to fix showing the plugin on wordpress.org
 
 = 1.0 =
 * initializing the plugin
+
+== Upgrade Notice ==
+
+= 1.1 =
+Use default description if no site specific description is provided.

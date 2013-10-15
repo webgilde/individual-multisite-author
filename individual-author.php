@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Individual Multisite Author
- * Description: A brief description of the Plugin.
- * Version: 1.0.1
+ * Description: Use individual author descriptions for each site on WordPress multisites
+ * Version: 1.1
  * Plugin URI: http://webgilde.com/
  * Author: Thomas Maier
  * Author URI: http://www.webgilde.com/
@@ -31,7 +31,7 @@ if (!function_exists('add_action')) {
     exit();
 }
 
-define('IMAVERSION', '1.0');
+define('IMAVERSION', '1.0.2');
 define('IMADIR', basename(dirname(__FILE__)));
 define('IMAPATH', plugin_dir_path(__FILE__));
 
@@ -69,7 +69,7 @@ if (is_multisite() && !class_exists('Ima_Class')) {
                 <tr>
                     <th><label for="ima_description"><?php _e('Site specific biography', 'ima'); ?></label></th>
                     <td>
-                        <textarea name="<?php echo $this->field_name; ?>" id="ima_description"><?php echo esc_attr(get_the_author_meta($this->field_name, $user->ID)); ?></textarea>
+                        <textarea cols="30" rows="5" name="<?php echo $this->field_name; ?>" id="ima_description"><?php echo esc_attr(get_the_author_meta($this->field_name, $user->ID)); ?></textarea>
                         <br/><span class="description"><?php printf(__('Biography for %s', 'ima'), home_url()); ?></span>
                     </td>
                 </tr>
@@ -95,11 +95,17 @@ if (is_multisite() && !class_exists('Ima_Class')) {
 
         /**
          * get the new author description
+         * @return string $description individual author description, if provided
+         * @return string $val normal WordPress author bio if indiv. description is empty
+         * @since 1.0
+         * @updated 1.0.2
          */
         public function get_author_description($val = '', $user_id = 0)
         {
             if ( intval( $user_id ) == 0) return;
-            return esc_attr(get_the_author_meta($this->field_name, $user_id));
+            $description = esc_attr(get_the_author_meta($this->field_name, $user_id));
+            if ( $description == '' ) return $val;
+            return $description;
         }
 
     }
