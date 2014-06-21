@@ -44,6 +44,15 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 == Changelog ==
 
+= 1.2.0 =
+
+* added textdomain
+* added German translation to test textdomain
+
+= 1.1.0 =
+
+(confused commit, please ignore)
+
 = 1.0.2 =
 * input field for individual description is now bigger
 * added short description for the plugin

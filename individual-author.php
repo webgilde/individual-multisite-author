@@ -23,7 +23,6 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-
 //avoid direct calls to this file
 if (!function_exists('add_action')) {
     header('Status: 403 Forbidden');
@@ -36,7 +35,7 @@ define('IMADIR', basename(dirname(__FILE__)));
 define('IMAPATH', plugin_dir_path(__FILE__));
 
 // load the plugin only on multisites
-if (is_multisite() && !class_exists('Ima_Class')) {
+if (!is_multisite() && !class_exists('Ima_Class')) {
 
     class Ima_Class {
 
@@ -44,8 +43,10 @@ if (is_multisite() && !class_exists('Ima_Class')) {
          * initialize the plugin
          * @since 1.0
          */
-        public function __construct()
-        {
+        public function __construct() {
+            // Load plugin text domain
+            add_action('plugins_loaded', array($this, 'load_plugin_textdomain'));
+
             add_action('show_user_profile', array($this, 'add_custom_profile_fields'));
             add_action('edit_user_profile', array($this, 'add_custom_profile_fields'));
 
@@ -55,6 +56,16 @@ if (is_multisite() && !class_exists('Ima_Class')) {
             add_filter('get_the_author_description', array($this, 'get_author_description'), 10, 2);
 
             $this->field_name = 'ima_description_' . get_current_blog_id();
+        }
+
+        /**
+         * Load the plugin text domain for translation.
+         *
+         * @since    1.2.0
+         */
+        public function load_plugin_textdomain() {
+
+            load_plugin_textdomain("ima", false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
         }
 
         /**
@@ -83,13 +94,12 @@ if (is_multisite() && !class_exists('Ima_Class')) {
          * @param int $user_id
          * @return boolean
          */
-        public function save_custom_profile_fields($user_id)
-        {
+        public function save_custom_profile_fields($user_id) {
 
             if (!current_user_can('edit_user', $user_id))
                 return FALSE;
 
-            if (isset($_POST[ $this->field_name ]))
+            if (isset($_POST[$this->field_name]))
                 update_usermeta($user_id, $this->field_name, $_POST[$this->field_name]);
         }
 
@@ -100,11 +110,12 @@ if (is_multisite() && !class_exists('Ima_Class')) {
          * @since 1.0
          * @updated 1.0.2
          */
-        public function get_author_description($val = '', $user_id = 0)
-        {
-            if ( intval( $user_id ) == 0) return;
+        public function get_author_description($val = '', $user_id = 0) {
+            if (intval($user_id) == 0)
+                return;
             $description = esc_attr(get_the_author_meta($this->field_name, $user_id));
-            if ( $description == '' ) return $val;
+            if ($description == '')
+                return $val;
             return $description;
         }
 
