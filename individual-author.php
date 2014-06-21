@@ -35,7 +35,7 @@ define('IMADIR', basename(dirname(__FILE__)));
 define('IMAPATH', plugin_dir_path(__FILE__));
 
 // load the plugin only on multisites
-if (!is_multisite() && !class_exists('Ima_Class')) {
+if (is_multisite() && !class_exists('Ima_Class')) {
 
     class Ima_Class {
 
