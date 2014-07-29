@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Individual Multisite Author
  * Description: Use individual author descriptions for each site on WordPress multisites
- * Version: 1.2.0
+ * Version: 1.2.1
  * Plugin URI: http://webgilde.com/
  * Author: Thomas Maier
  * Author URI: http://www.webgilde.com/
@@ -30,12 +30,12 @@ if (!function_exists('add_action')) {
     exit();
 }
 
-define('IMAVERSION', '1.2.0');
+define('IMAVERSION', '1.2.1');
 define('IMADIR', basename(dirname(__FILE__)));
 define('IMAPATH', plugin_dir_path(__FILE__));
 
 // load the plugin only on multisites
-if (is_multisite() && !class_exists('Ima_Class')) {
+if (!is_multisite() && !class_exists('Ima_Class')) {
 
     class Ima_Class {
 
@@ -108,12 +108,12 @@ if (is_multisite() && !class_exists('Ima_Class')) {
          * @return string $description individual author description, if provided
          * @return string $val normal WordPress author bio if indiv. description is empty
          * @since 1.0
-         * @updated 1.0.2
+         * @updated 1.2.1
          */
         public function get_author_description($val = '', $user_id = 0) {
             if (intval($user_id) == 0)
                 return;
-            $description = esc_attr(get_the_author_meta($this->field_name, $user_id));
+            $description = get_the_author_meta($this->field_name, $user_id);
             if ($description == '')
                 return $val;
             return $description;
