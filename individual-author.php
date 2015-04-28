@@ -24,7 +24,7 @@
  *
  */
 //avoid direct calls to this file
-if ( ! function_exists( 'add_action' ) ) {
+if ( ! function_exists( 'is_multisite' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
 	exit();
@@ -35,7 +35,7 @@ define( 'IMADIR', basename( dirname( __FILE__ ) ) );
 define( 'IMAPATH', plugin_dir_path( __FILE__ ) );
 
 // load the plugin only on multisites
-if ( is_multisite() && ! class_exists( 'Ima_Class' ) ) {
+if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 
 	class Ima_Class {
 
@@ -45,15 +45,15 @@ if ( is_multisite() && ! class_exists( 'Ima_Class' ) ) {
 		 */
 		public function __construct() {
 			// Load plugin text domain
-			add_action( 'plugins_loaded', array($this, 'load_plugin_textdomain') );
+			add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
-			add_action( 'show_user_profile', array($this, 'add_custom_profile_fields') );
-			add_action( 'edit_user_profile', array($this, 'add_custom_profile_fields') );
+			add_action( 'show_user_profile', array( $this, 'add_custom_profile_fields' ) );
+			add_action( 'edit_user_profile', array( $this, 'add_custom_profile_fields' ) );
 
-			add_action( 'personal_options_update', array($this, 'save_custom_profile_fields') );
-			add_action( 'edit_user_profile_update', array($this, 'save_custom_profile_fields') );
+			add_action( 'personal_options_update', array( $this, 'save_custom_profile_fields' ) );
+			add_action( 'edit_user_profile_update', array( $this, 'save_custom_profile_fields' ) );
 
-			add_filter( 'get_the_author_description', array($this, 'get_author_description'), 10, 2 );
+			add_filter( 'get_the_author_description', array( $this, 'get_author_description' ), 10, 2 );
 
 			$this->field_name = 'ima_description_' . get_current_blog_id();
 		}
@@ -65,7 +65,7 @@ if ( is_multisite() && ! class_exists( 'Ima_Class' ) ) {
 		 */
 		public function load_plugin_textdomain() {
 
-			load_plugin_textdomain( 'ima', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+			load_plugin_textdomain( 'ima', false, IMAPATH . '/languages/' );
 		}
 
 		/**
@@ -99,8 +99,8 @@ if ( is_multisite() && ! class_exists( 'Ima_Class' ) ) {
 			if ( ! current_user_can( 'edit_user', $user_id ) ) {
 				return false; }
 
-			if ( isset($_POST[$this->field_name]) ) {
-				update_usermeta( $user_id, $this->field_name, $_POST[$this->field_name] ); }
+			if ( isset($_POST[ $this->field_name ]) ) {
+				update_usermeta( $user_id, $this->field_name, $_POST[ $this->field_name ] ); }
 		}
 
 		/**
@@ -111,15 +111,15 @@ if ( is_multisite() && ! class_exists( 'Ima_Class' ) ) {
 		 * @updated 1.2.1
 		 */
 		public function get_author_description($val = '', $user_id = 0) {
-			if ( intval( $user_id ) == 0 ) {
-				return; }
+			if ( ! $user_id ) {
+				return;
+			}
 			$description = get_the_author_meta( $this->field_name, $user_id );
-			if ( $description == '' ) {
-				return $val; }
-			return $description;
+
+			return '' == $description ? $val : $description;
 		}
 
 	}
 
-	$ima = new Ima_Class();
+	new Ima_Class();
 }
