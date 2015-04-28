@@ -80,7 +80,7 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
                 <tr>
                     <th><label for="ima_description"><?php _e( 'Site specific biography', 'ima' ); ?></label></th>
                     <td>
-                        <textarea cols="30" rows="5" name="<?php echo $this->field_name; ?>" id="ima_description"><?php echo esc_attr( get_the_author_meta( $this->field_name, $user->ID ) ); ?></textarea>
+                        <textarea cols="30" rows="5" name="<?php echo esc_attr( $this->field_name ); ?>" id="ima_description"><?php echo esc_attr( get_the_author_meta( $this->field_name, $user->ID ) ); ?></textarea>
                         <br/><span class="description"><?php printf( __( 'Biography for %s', 'ima' ), home_url() ); ?></span>
                     </td>
                 </tr>
@@ -99,8 +99,9 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 			if ( ! current_user_can( 'edit_user', $user_id ) ) {
 				return false; }
 
-			if ( isset($_POST[ $this->field_name ]) ) {
-				update_usermeta( $user_id, $this->field_name, $_POST[ $this->field_name ] ); }
+			if ( isset($_POST[ $this->field_name ]) ) { // input var okay
+				update_user_meta( $user_id, $this->field_name, $_POST[ $this->field_name ] ); // input var okay
+			}
 		}
 
 		/**
