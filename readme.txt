@@ -2,9 +2,9 @@
 Contributors: webzunft
 Donate link: http://webgilde.com/
 Tags: multisite, author, author description, author bio, bio, biography
-Requires at least: 3.6
-Tested up to: 3.9.1
-Stable tag: 1.2.2
+Requires at least: 4.0
+Tested up to: 4.3
+Stable tag: 1.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,7 +39,7 @@ This field is individual for each blog, so make sure you first login to the righ
 
 == Changelog ==
 
-= untagged =
+= 1.2.3 =
 
 * adjust coding to wordpress (extra) standard
 * fix deprecation notice for WP 3.0+ (update_usermeta)
