@@ -39,6 +39,12 @@ This field is individual for each blog, so make sure you first login to the righ
 
 == Changelog ==
 
+= untagged =
+
+* adjust coding to wordpress (extra) standard
+* fix deprecation notice for WP 3.0+ (update_usermeta)
+* minor code 'optimisation'
+
 = 1.2.2 =
 
 * fixing a bug that prevented the plugin from being loaded completely
