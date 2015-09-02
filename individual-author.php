@@ -2,10 +2,10 @@
 /**
  * Plugin Name: Individual Multisite Author
  * Description: Use individual author descriptions for each site on WordPress multisites
- * Version: 1.2.3
+ * Version: 1.2.4
  * Plugin URI: http://webgilde.com/
  * Author: Thomas Maier
- * Author URI: http://www.webgilde.com/
+ * Author URI: http://webgilde.com/
  * License: GPL v2 or later
  *
 
@@ -30,7 +30,7 @@ if ( ! function_exists( 'is_multisite' ) ) {
 	exit();
 }
 
-define( 'IMAVERSION', '1.2.3' );
+define( 'IMAVERSION', '1.2.4' );
 define( 'IMADIR', basename( dirname( __FILE__ ) ) );
 define( 'IMAPATH', plugin_dir_path( __FILE__ ) );
 
@@ -65,7 +65,7 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 		 */
 		public function load_plugin_textdomain() {
 
-			load_plugin_textdomain( 'ima', false, IMAPATH . '/languages/' );
+			load_plugin_textdomain( 'ima', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 
 		/**

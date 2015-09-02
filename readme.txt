@@ -4,7 +4,7 @@ Donate link: http://webgilde.com/
 Tags: multisite, author, author description, author bio, bio, biography
 Requires at least: 4.0
 Tested up to: 4.3
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,10 @@ You will now see an additional field for the author description when you visit t
 This field is individual for each blog, so make sure you first login to the right dashboard when changing the authors bio for a specific site in your multisite environment.
 
 == Changelog ==
+
+= 1.2.4 =
+
+* fixed broken textdomain reference, thanks @rwatuny
 
 = 1.2.3 =
 
