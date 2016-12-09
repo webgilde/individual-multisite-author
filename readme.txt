@@ -3,7 +3,7 @@ Contributors: webzunft
 Donate link: http://webgilde.com/
 Tags: multisite, author, author description, author bio, bio, biography
 Requires at least: 4.0
-Tested up to: 4.3
+Tested up to: 4.7
 Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
