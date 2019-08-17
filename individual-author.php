@@ -46,25 +46,23 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 		public function __construct() {
 			// Load plugin text domain
 			add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
-
 			add_action( 'show_user_profile', array( $this, 'add_custom_profile_fields' ) );
 			add_action( 'edit_user_profile', array( $this, 'add_custom_profile_fields' ) );
-
 			add_action( 'personal_options_update', array( $this, 'save_custom_profile_fields' ) );
 			add_action( 'edit_user_profile_update', array( $this, 'save_custom_profile_fields' ) );
-
-			add_filter( 'get_the_author_description', array( $this, 'get_author_description' ), 10, 2 );
-
-			$this->field_name = 'ima_description_' . get_current_blog_id();
+			add_filter( 'the_author', array( $this, 'the_author' ) ); // used in the loop - sadly the_author() does not use get_the_author_display_name filter
+			add_filter( 'get_the_author_display_name', array( $this, 'get_the_author_display_name' ), 10, 2 );
+			add_filter( 'get_the_author_description', array( $this, 'get_the_author_description' ), 10, 2 );
+			$this->display_name_field_name = 'ima_display_name_' . get_current_blog_id();
+			$this->description_field_name = 'ima_description_' . get_current_blog_id();
 		}
 
 		/**
 		 * Load the plugin text domain for translation.
 		 *
-		 * @since    1.2.0
+		 * @since	 1.2.0
 		 */
 		public function load_plugin_textdomain() {
-
 			load_plugin_textdomain( 'ima', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
 
@@ -75,17 +73,24 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 		 */
 		public function add_custom_profile_fields($user) {
 			?>
-            <h3><?php _e( 'Site specific author information', 'ima' ); ?></h3>
-            <table class="form-table">
-                <tr>
-                    <th><label for="ima_description"><?php _e( 'Site specific biography', 'ima' ); ?></label></th>
-                    <td>
-                        <textarea cols="30" rows="5" name="<?php echo esc_attr( $this->field_name ); ?>" id="ima_description"><?php echo esc_attr( get_the_author_meta( $this->field_name, $user->ID ) ); ?></textarea>
-                        <br/><span class="description"><?php printf( __( 'Biography for %s', 'ima' ), home_url() ); ?></span>
-                    </td>
-                </tr>
-            </table>
-            <?php
+			<h3><?php _e( 'Site specific author information', 'ima' ); ?></h3>
+			<table class="form-table">
+				<tr>
+					<th><label for="ima_display_name"><?php _e( 'Site specific display name', 'ima' ); ?></label></th>
+					<td>
+						<textarea cols="30" rows="1" name="<?php echo esc_attr( $this->display_name_field_name ); ?>" id="ima_display_name"><?php echo esc_attr( get_the_author_meta( $this->display_name_field_name, $user->ID ) ); ?></textarea>
+						<br/><span class="description"><?php printf( __( 'Display name for %s', 'ima' ), home_url() ); ?></span>
+					</td>
+				</tr>
+				<tr>
+					<th><label for="ima_description"><?php _e( 'Site specific biography', 'ima' ); ?></label></th>
+					<td>
+						<textarea cols="30" rows="5" name="<?php echo esc_attr( $this->description_field_name ); ?>" id="ima_description"><?php echo esc_attr( get_the_author_meta( $this->description_field_name, $user->ID ) ); ?></textarea>
+						<br/><span class="description"><?php printf( __( 'Biography for %s', 'ima' ), home_url() ); ?></span>
+					</td>
+				</tr>
+			</table>
+			<?php
 		}
 
 		/**
@@ -95,13 +100,44 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 		 * @return boolean
 		 */
 		public function save_custom_profile_fields($user_id) {
-
-			if ( ! current_user_can( 'edit_user', $user_id ) ) {
-				return false; }
-
-			if ( isset($_POST[ $this->field_name ]) ) { // input var okay
-				update_user_meta( $user_id, $this->field_name, $_POST[ $this->field_name ] ); // input var okay
+			if ( ! current_user_can( 'edit_user', $user_id ) ) { return false; }
+			if ( isset($_POST[ $this->display_name_field_name ]) ) { // input var okay
+				update_user_meta( $user_id, $this->display_name_field_name, $_POST[ $this->display_name_field_name ] ); // input var okay
 			}
+			if ( isset($_POST[ $this->description_field_name ]) ) { // input var okay
+				update_user_meta( $user_id, $this->description_field_name, $_POST[ $this->description_field_name ] ); // input var okay
+			}
+		}
+
+		/**
+		 * get the new author display name
+		 * @return string $display_name individual author display_name, if provided
+		 * @return string $base_display_name normal WordPress author display_name if indiv. display_name is empty
+		 * @since 1.3 ??
+		 * @updated 1.3 ??
+		 */
+		public function the_author($base_display_name) {
+			global $authordata;
+			if ( is_object( $authordata ) && isset( $authordata->ID ) ) {
+				$display_name = get_the_author_meta( $this->display_name_field_name, $authordata->ID );
+			}
+			else {
+				$display_name = '';
+			}
+			return '' == $display_name ? $base_display_name : $display_name;
+		}
+		
+		/**
+		 * get the new author display name
+		 * @return string $display_name individual author display_name, if provided
+		 * @return string $val normal WordPress author display_name if indiv. display_name is empty
+		 * @since 1.3 ??
+		 * @updated 1.3 ??
+		 */
+		public function get_the_author_display_name($val = '', $user_id = 0) {
+			if ( ! $user_id ) { return; }
+			$display_name = get_the_author_meta( $this->display_name_field_name, $user_id );
+			return '' == $display_name ? $val : $display_name;
 		}
 
 		/**
@@ -111,14 +147,12 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 		 * @since 1.0
 		 * @updated 1.2.1
 		 */
-		public function get_author_description($val = '', $user_id = 0) {
-			if ( ! $user_id ) {
-				return;
-			}
-			$description = get_the_author_meta( $this->field_name, $user_id );
-
+		public function get_the_author_description($val = '', $user_id = 0) {
+			if ( ! $user_id ) { return; }
+			$description = get_the_author_meta( $this->description_field_name, $user_id );
 			return '' == $description ? $val : $description;
 		}
+
 
 	}
 
