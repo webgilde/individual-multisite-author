@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Individual Multisite Author
  * Description: Use individual author descriptions for each site on WordPress multisites
- * Version: 1.2.5
+ * Version: 1.3
  * Plugin URI: http://webgilde.com/
  * Author: Thomas Maier
  * Author URI: http://webgilde.com/
@@ -30,7 +30,7 @@ if ( ! function_exists( 'is_multisite' ) ) {
 	exit();
 }
 
-define( 'IMAVERSION', '1.2.5' );
+define( 'IMAVERSION', '1.3' );
 define( 'IMADIR', basename( dirname( __FILE__ ) ) );
 define( 'IMAPATH', plugin_dir_path( __FILE__ ) );
 
@@ -78,7 +78,7 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 				<tr>
 					<th><label for="ima_display_name"><?php _e( 'Site specific display name', 'ima' ); ?></label></th>
 					<td>
-						<textarea cols="30" rows="1" name="<?php echo esc_attr( $this->display_name_field_name ); ?>" id="ima_display_name"><?php echo esc_attr( get_the_author_meta( $this->display_name_field_name, $user->ID ) ); ?></textarea>
+						<input name="<?php echo esc_attr( $this->display_name_field_name ); ?>" id="ima_display_name" class="regular-text" value="<?php echo esc_attr( get_the_author_meta( $this->display_name_field_name, $user->ID ) ); ?>"/>
 						<br/><span class="description"><?php printf( __( 'Display name for %s', 'ima' ), home_url() ); ?></span>
 					</td>
 				</tr>
@@ -101,11 +101,13 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 		 */
 		public function save_custom_profile_fields($user_id) {
 			if ( ! current_user_can( 'edit_user', $user_id ) ) { return false; }
-			if ( isset($_POST[ $this->display_name_field_name ]) ) { // input var okay
-				update_user_meta( $user_id, $this->display_name_field_name, $_POST[ $this->display_name_field_name ] ); // input var okay
+			if ( isset($_POST[ $this->display_name_field_name ] ) ) { // input var okay
+				$name = esc_attr( $_POST[ $this->display_name_field_name ] );				
+				update_user_meta( $user_id, $this->display_name_field_name, $name ); // input var okay
 			}
 			if ( isset($_POST[ $this->description_field_name ]) ) { // input var okay
-				update_user_meta( $user_id, $this->description_field_name, $_POST[ $this->description_field_name ] ); // input var okay
+				$description = esc_attr( $_POST[ $this->description_field_name ] );
+				update_user_meta( $user_id, $this->description_field_name, $description ); // input var okay
 			}
 		}
 
