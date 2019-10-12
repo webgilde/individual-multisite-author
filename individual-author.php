@@ -102,12 +102,10 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 		public function save_custom_profile_fields($user_id) {
 			if ( ! current_user_can( 'edit_user', $user_id ) ) { return false; }
 			if ( isset($_POST[ $this->display_name_field_name ] ) ) { // input var okay
-				$name = esc_attr( $_POST[ $this->display_name_field_name ] );				
-				update_user_meta( $user_id, $this->display_name_field_name, $name ); // input var okay
+				update_user_meta( $user_id, $this->display_name_field_name, $_POST[ $this->display_name_field_name ] ); // input var okay
 			}
 			if ( isset($_POST[ $this->description_field_name ]) ) { // input var okay
-				$description = esc_attr( $_POST[ $this->description_field_name ] );
-				update_user_meta( $user_id, $this->description_field_name, $description ); // input var okay
+				update_user_meta( $user_id, $this->description_field_name, $_POST[ $this->description_field_name ] ); // input var okay
 			}
 		}
 
