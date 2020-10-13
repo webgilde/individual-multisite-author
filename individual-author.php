@@ -73,20 +73,20 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 		 */
 		public function add_custom_profile_fields($user) {
 			?>
-			<h3><?php _e( 'Site specific author information', 'ima' ); ?></h3>
+			<h3><?php _e( 'Site-specific author information', 'ima' ); ?></h3>
 			<table class="form-table">
 				<tr>
-					<th><label for="ima_display_name"><?php _e( 'Site specific display name', 'ima' ); ?></label></th>
+					<th><label for="ima_display_name"><?php _e( 'Site-specific display name', 'ima' ); ?></label></th>
 					<td>
-						<input name="<?php echo esc_attr( $this->display_name_field_name ); ?>" id="ima_display_name" class="regular-text" value="<?php echo esc_attr( get_the_author_meta( $this->display_name_field_name, $user->ID ) ); ?>"/>
-						<br/><span class="description"><?php printf( __( 'Display name for %s', 'ima' ), home_url() ); ?></span>
+						<input type="text" name="<?php echo esc_attr( $this->display_name_field_name ); ?>" id="ima_display_name" class="regular-text" value="<?php echo esc_attr( get_the_author_meta( $this->display_name_field_name, $user->ID ) ); ?>"/>
+						<p class="description"><?php printf( __( 'Display name for %s', 'ima' ), home_url() ); ?></p>
 					</td>
 				</tr>
 				<tr>
-					<th><label for="ima_description"><?php _e( 'Site specific biography', 'ima' ); ?></label></th>
+					<th><label for="ima_description"><?php _e( 'Site-specific biography', 'ima' ); ?></label></th>
 					<td>
 						<textarea cols="30" rows="5" name="<?php echo esc_attr( $this->description_field_name ); ?>" id="ima_description"><?php echo esc_attr( get_the_author_meta( $this->description_field_name, $user->ID ) ); ?></textarea>
-						<br/><span class="description"><?php printf( __( 'Biography for %s', 'ima' ), home_url() ); ?></span>
+						<p class="description"><?php printf( __( 'Biography for %s', 'ima' ), home_url() ); ?></p>
 					</td>
 				</tr>
 			</table>
