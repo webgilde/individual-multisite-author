@@ -40,6 +40,20 @@ if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
 	class Ima_Class {
 
 		/**
+		 * Stores the display name field name for the current site.
+		 *
+		 * @var string
+		 */
+		public $display_name_field_name;
+
+		/**
+		 * Stores the discription field name for the current site.
+		 *
+		 * @var string
+		 */
+		public $description_field_name;
+
+		/**
 		 * initialize the plugin
 		 * @since 1.0
 		 */
