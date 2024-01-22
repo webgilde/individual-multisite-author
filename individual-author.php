@@ -34,8 +34,23 @@ define( 'IMAVERSION', '1.3.1' );
 define( 'IMADIR', basename( dirname( __FILE__ ) ) );
 define( 'IMAPATH', plugin_dir_path( __FILE__ ) );
 
+if ( ! is_multisite() ) {
+	add_action( 'admin_notices', 'ima_not_a_multisite' );
+
+	return;
+}
+
+/**
+ * Show an admin notice error message, if the `vendor` folder is missing.
+ */
+function ima_not_a_multisite() {
+	echo '<div class="error"><p>';
+	esc_html_e( 'Individual Multisite Author only works with a multisite installation.', 'individual-multisite-author' );
+	echo '</p></div>';
+}
+
 // load the plugin only on multisites
-if ( ! class_exists( 'Ima_Class', false ) && is_multisite() ) {
+if ( ! class_exists( 'Ima_Class', false ) ) {
 
 	class Ima_Class {
 
