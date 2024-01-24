@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Individual Multisite Author
  * Description: Use individual author descriptions for each site on WordPress multisites
- * Version: 1.3.1
+ * Version: 1.4.0
  * Plugin URI: http://webgilde.com/
  * Author: Thomas Maier
  * Author URI: http://webgilde.com/
@@ -30,7 +30,7 @@ if ( ! function_exists( 'is_multisite' ) ) {
 	exit();
 }
 
-define( 'IMAVERSION', '1.3.1' );
+define( 'IMAVERSION', '1.4.0' );
 define( 'IMADIR', basename( dirname( __FILE__ ) ) );
 define( 'IMAPATH', plugin_dir_path( __FILE__ ) );
 
