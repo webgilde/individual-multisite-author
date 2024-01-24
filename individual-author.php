@@ -90,6 +90,7 @@ if ( ! class_exists( 'Ima_Class', false ) ) {
 		 * @param array $user user data
 		 */
 		public function add_custom_profile_fields($user) {
+			wp_nonce_field( 'ima_user_profile_update', 'ima_user_profile_nonce' );
 			?>
 			<h3><?php esc_html_e( 'Site-specific author information', 'individual-multisite-author' ); ?></h3>
 			<table class="form-table">
@@ -135,16 +136,27 @@ if ( ! class_exists( 'Ima_Class', false ) ) {
 		 * update the user descriptions
 		 * @since 1.0
 		 * @param int $user_id
-		 * @return boolean
 		 */
-		public function save_custom_profile_fields($user_id) {
-			if ( ! current_user_can( 'edit_user', $user_id ) ) { return false; }
-			if ( isset($_POST[ $this->display_name_field_name ] ) ) { // input var okay
-				update_user_meta( $user_id, $this->display_name_field_name, $_POST[ $this->display_name_field_name ] ); // input var okay
+		public function save_custom_profile_fields( $user_id ) {
+			if ( ! current_user_can( 'edit_user', $user_id ) ) {
+				return;
 			}
-			if ( isset($_POST[ $this->description_field_name ]) ) { // input var okay
-				update_user_meta( $user_id, $this->description_field_name, $_POST[ $this->description_field_name ] ); // input var okay
+
+			if ( ! check_admin_referer( 'ima_user_profile_update', 'ima_user_profile_nonce' ) ) {
+				return;
 			}
+
+			// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$display_name = isset( $_POST[ $this->display_name_field_name ] ) ? wp_unslash( $_POST[ $this->display_name_field_name ] ) : '';
+			$description  = isset( $_POST[ $this->description_field_name ] ) ? wp_unslash( $_POST[ $this->description_field_name ] ) : '';
+
+			// Filter (and sanitize) fields.
+			$description  = apply_filters( 'pre_user_description', $description );
+			$display_name = apply_filters( 'pre_user_display_name', $display_name );
+			// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+			update_user_meta( $user_id, $this->display_name_field_name, $display_name );
+			update_user_meta( $user_id, $this->description_field_name, $description );
 		}
 
 		/**
