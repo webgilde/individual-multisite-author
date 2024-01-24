@@ -73,8 +73,6 @@ if ( ! class_exists( 'Ima_Class', false ) ) {
 		 * @since 1.0
 		 */
 		public function __construct() {
-			// Load plugin text domain
-			add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 			add_action( 'show_user_profile', array( $this, 'add_custom_profile_fields' ) );
 			add_action( 'edit_user_profile', array( $this, 'add_custom_profile_fields' ) );
 			add_action( 'personal_options_update', array( $this, 'save_custom_profile_fields' ) );
@@ -87,35 +85,46 @@ if ( ! class_exists( 'Ima_Class', false ) ) {
 		}
 
 		/**
-		 * Load the plugin text domain for translation.
-		 *
-		 * @since	 1.2.0
-		 */
-		public function load_plugin_textdomain() {
-			load_plugin_textdomain( 'ima', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-		}
-
-		/**
 		 * construct the form fields for the author descriptions
 		 * @since 1.0
 		 * @param array $user user data
 		 */
 		public function add_custom_profile_fields($user) {
 			?>
-			<h3><?php _e( 'Site-specific author information', 'ima' ); ?></h3>
+			<h3><?php esc_html_e( 'Site-specific author information', 'individual-multisite-author' ); ?></h3>
 			<table class="form-table">
 				<tr>
-					<th><label for="ima_display_name"><?php _e( 'Site-specific display name', 'ima' ); ?></label></th>
+					<th><label for="ima_display_name"><?php esc_html_e( 'Site-specific display name', 'individual-multisite-author' ); ?></label></th>
 					<td>
 						<input type="text" name="<?php echo esc_attr( $this->display_name_field_name ); ?>" id="ima_display_name" class="regular-text" value="<?php echo esc_attr( get_the_author_meta( $this->display_name_field_name, $user->ID ) ); ?>"/>
-						<p class="description"><?php printf( __( 'Display name for %s', 'ima' ), home_url() ); ?></p>
+						<p class="description">
+							<?php
+							echo esc_html(
+								sprintf(
+								// translators: %s: the home_url
+									__( 'Display name for %s', 'individual-multisite-author' ),
+									home_url()
+								)
+							);
+							?>
+						</p>
 					</td>
 				</tr>
 				<tr>
-					<th><label for="ima_description"><?php _e( 'Site-specific biography', 'ima' ); ?></label></th>
+					<th><label for="ima_description"><?php esc_html_e( 'Site-specific biography', 'individual-multisite-author' ); ?></label></th>
 					<td>
 						<textarea cols="30" rows="5" name="<?php echo esc_attr( $this->description_field_name ); ?>" id="ima_description"><?php echo esc_attr( get_the_author_meta( $this->description_field_name, $user->ID ) ); ?></textarea>
-						<p class="description"><?php printf( __( 'Biography for %s', 'ima' ), home_url() ); ?></p>
+						<p class="description">
+							<?php
+							echo esc_html(
+								sprintf(
+								// translators: %s: the home_url
+									__( 'Biography for %s', 'individual-multisite-author' ),
+									home_url()
+								)
+							);
+							?>
+						</p>
 					</td>
 				</tr>
 			</table>
