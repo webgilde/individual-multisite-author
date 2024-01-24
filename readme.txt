@@ -2,9 +2,9 @@
 Contributors: webzunft
 Donate link: https://webgilde.com/
 Tags: multisite, author, author description, author bio, bio, biography
-Requires at least: 5.0
-Tested up to: 6.0
-Stable tag: 1.3.1
+Requires at least: 6.0
+Tested up to: 6.4
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,7 +16,7 @@ When running [WordPress Multisites](http://codex.wordpress.org/Create_A_Network)
 
 This is unfortunate not only on multilingual sites.
 
-Long story short, this plugin enables you to enter the author biography for each user on a per blog basis.
+Long story short, this plugin enables you to enter the author biography for each user on a per-blog basis.
 
 You don’t have to do anything, but to install and activate the plugin and to enter the author bio into through the dashboard(s) of your site(s).
 
@@ -24,7 +24,7 @@ Please visit the github repository on https://github.com/webzunft/multisite-indi
 
 **Some things site admins and developers might want to know:**
 
-* the plugin only works when multisite support is enabled, but wouldn’t harm a normal blog when activated (is just not doing anything there)
+* the plugin only works when multisite support is enabled
 * the biography is saved using a custom profile field for each blog with the pattern 'ima_description_BLOGID', e.g. _img_description_3_
 * the filter get_the_author_description is used to load the "right" description; this is used by the`_author_meta()` and `get_the_author_meta()` functions
 
@@ -38,6 +38,13 @@ You will now see an additional field for the author description when you visit t
 This field is individual for each blog, so make sure you first login to the right dashboard when changing the authors bio for a specific site in your multisite environment.
 
 == Changelog ==
+
+= 1.4.0 =
+
+* allow to translate the plugin through wordpress.org, props @2ndkauboy
+* show a warning if the current site is not a multisite, props @2ndkauboy
+* secure user data while allowing some HTML in the description, props @2ndkauboy
+* fix PHP 8.2 deprecation warning, props @2ndkauboy
 
 = 1.3.1 =
 
