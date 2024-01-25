@@ -3,9 +3,9 @@
  * Plugin Name: Individual Multisite Author
  * Description: Use individual author descriptions for each site on WordPress multisites
  * Version: 1.4.0
- * Plugin URI: http://webgilde.com/
+ * Plugin URI: https://webgilde.com/
  * Author: Thomas Maier
- * Author URI: http://webgilde.com/
+ * Author URI: https://webgilde.com/
  * License: GPL v2 or later
  *
 
